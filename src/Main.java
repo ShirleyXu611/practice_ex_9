@@ -3,6 +3,9 @@ public class Main{
         HandleOrders handleOrders = new HandleOrders();
         handleOrders.takeOrder();
         handleOrders.createOrderSummary();
+        handleOrders.displayCustomPizzas();
+        handleOrders.getOrderLogs().handleLogs();
+        handleOrders.getOrderQueue().displayQueue();
         System.out.println(handleOrders);
     }
 }

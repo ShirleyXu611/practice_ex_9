@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class HandleOrders {
@@ -11,8 +13,19 @@ public class HandleOrders {
     private double totalOrderPrice = 0.0;
     private int numberOfPizzasOrdered = 0;
     StringBuilder pizzaOrderSummary = new StringBuilder();
+    List<CustomPizza> customPizzas=new ArrayList<>();
 
     Scanner input = new Scanner(System.in);
+
+
+    private OrderLogs orderLogs=new OrderLogs();
+    private OrderQueue orderQueue=new OrderQueue();
+    public OrderLogs  getOrderLogs(){
+        return orderLogs;
+    }
+    public OrderQueue getOrderQueue(){
+        return orderQueue;
+    }
 
     public void takeOrder(){
         String orderAnother = "Y";
@@ -20,6 +33,7 @@ public class HandleOrders {
         int m = 0;
         int n = 0;
         int p = 0;
+
 
         do{
             int i = 1;
@@ -89,6 +103,8 @@ public class HandleOrders {
 
                 StringBuilder customPizza = new StringBuilder(" Custom Pizza with ");
                 
+                StringBuilder customPizzaToppings = new StringBuilder();
+
                 int l = 1;
                 do{
                     System.out.println("Enter topping #" + l + ". To stop, type 0: ");
@@ -99,11 +115,15 @@ public class HandleOrders {
                     }
                     customPizza.append(PizzaToppings.values()[toppingChoice-1].getTopping() + ", ");
                     customPizzaPrice += PizzaToppings.values()[toppingChoice-1].getToppingPrice();
+                    customPizzaToppings.append(PizzaToppings.values()[toppingChoice - 1].getTopping()).append(", ");
                     l++;
                 }while(l!=10 || l!=0);
-                
+
+                String toppingString = customPizzaToppings.toString();
+                CustomPizza newCustomPizza = new CustomPizza(toppingString, customPizzaPrice);
+                customPizzas.add(newCustomPizza);
+
                 customPizzaPrice += PIZZA_BASE_PRICE;
-                
                 customPizza.append(": €" + customPizzaPrice);
 
                 pizzasOrdered[j] = customPizza.toString();
@@ -166,6 +186,13 @@ public class HandleOrders {
         }while(orderAnother.equalsIgnoreCase("Y"));
 
 
+    }
+
+    public void displayCustomPizzas(){
+        System.out.println("\nCustom Pizzas: ");
+        for(CustomPizza pizza:customPizzas){
+            System.out.println(pizza);
+        }
     }
 
     public void createOrderSummary(){
